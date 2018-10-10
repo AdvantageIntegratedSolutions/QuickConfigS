@@ -1,0 +1,239 @@
+<!doctype html>
+<html laguage='en'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,600' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<title>TITLE GOES HERE</title>
+<style>
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  a { text-decoration: none; }
+  a:focus { outline: none; }
+
+  html {
+    width: 500px;
+    overflow: scroll;
+    background-color: #111a2a;
+    font-size: 16px;
+  }
+
+  body {
+    font-family: 'Raleway';
+    font-size: 100%;
+    height: 600px;
+  }
+
+  nav {
+    background-color: #fff;
+    height: 60px;
+    font-size: 1.25rem;
+    color: #404040;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    padding: 1.125rem;
+    background-color: transparent;
+    color: #111a2a;
+    position: relative;
+    transition: background-color .2s ease-out;
+  }
+  .nav-link:nth-child(1) { margin-right: 2rem; }
+  .nav-link:hover {
+    background-color: #f9f9f9;
+  }
+  .nav-link:after {
+    position: absolute;
+    content: '';
+    height: 4px;
+    background-color: #ac231b;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    transition: all .1s ease-out;
+  }
+  .nav-link:hover:after,
+  .active:after {
+    left: 0;
+    right: 0;
+  }
+
+  section {
+    padding: 40px;
+  }
+
+  #delete { display: none; }
+
+  .white-box {
+    padding: 20px;
+    background-color: #fff;
+    font-size: .9rem;
+    position: relative;
+  }
+
+  .table-heading { margin-bottom: 1rem; }
+
+  .table-name {
+    display: inline-block;
+    font-size: 1.1rem;
+    border-bottom: 1px solid;
+    width: 310px;
+    padding: .6rem 0;
+    margin-left: 1rem;
+  }
+
+  .table-textarea {
+    width: 100%;
+    height: 360px;
+    border: none;
+    padding: 10px;
+    background-color: #f9f9f9;
+    transition: all .1s ease-in-out;
+  }
+  .table-textarea:focus {
+    background-color: #f1f1f1;
+    outline: 2px solid #ac231b;
+  }
+
+  .heading {
+    font-size: 1.1rem;
+    border-bottom: 1px solid;
+    padding: .6rem 0;
+  }
+
+  input[type="text"] {
+    display: block;
+    width: 100%;
+    font-size: 1.25rem;
+    height: 40px;
+    padding: 0 .5rem;
+    background-color: #f1f1f1;
+    box-shadow: inset 1px 3px 7px rgba(0,0,0,0.05);
+    margin-bottom: 1rem;
+    outline: 2px solid transparent;
+    transition: all .3s ease-out;
+  }
+  input[type="text"]:focus {
+    outline: 2px solid #909090;
+  }
+
+  .fa.fa-check {
+    display: none;
+    position: absolute;
+    font-size: 1.25rem;
+    right: 30px;
+    color: #23B923;
+    bottom: 86px;
+  }
+
+  #deleteBtn:disabled { background-color: #909090; }
+  #deleteBtn:hover:disabled { cursor: auto; }
+
+  .margin-bottom { margin-bottom: 1rem; }
+
+  .button {
+    display: inline-block;
+    background-color: #ac231b;
+    padding: .75rem 1rem;
+    font-size: .9rem;
+    font-weight: 200;
+    color: #fff;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    transition: all .2s ease-out;
+  }
+  .button:hover {
+    cursor: pointer;
+    background-color: #93110a;
+  }
+
+  .success { background-color: #23B923; }
+
+  .red { color: #ac231b; }
+  #shortcuts a {
+    cursor: pointer;
+  }
+  #shortcuts a:hover {
+    font-weight: bold;
+  }
+  #shortcuts{
+    height: 90%;
+  }
+  .shortcut-box{
+    vertical-align: top;
+    display: inline-block;
+    max-width: 49%;
+    height: 100%;
+  }
+  .shortcut-box h4{
+    text-align: center;
+    font-weight: bold;
+  }
+  .shortcut-box div{
+    height: 100%;
+  }
+
+  .MainLink{
+    display: block;
+  }
+
+  .shortcut-box a{
+    color: blue;
+  }
+</style>
+</head>
+
+<body>
+  <nav>
+    <a href="#" class="nav-link active" id="shortcutLink">Shortcuts</a>
+    <a href="#" class="nav-link" id="tableLink">Table</a>
+    <a href="#" class="nav-link" id="deleteLink">Delete</a>
+  </nav>
+
+  <section id="shortcuts">
+    <div id="appShortcuts" class="white-box shortcut-box">
+      <h4>App Shortcuts</h4>
+    </div>
+    <div id="tableShortcuts" class="white-box shortcut-box">
+      <h4></h4>
+    </div>
+  </section>
+
+  <section id="tables">
+    <div class="white-box">
+      <div class="table-heading">
+        <i class="button copy-button fa fa-clipboard" title="Copy"></i>
+        <p class="table-name">Table Name</p>
+      </div>
+
+      <textarea class="table-textarea"></textarea>
+    </div>
+  </section>
+
+  <section id="delete">
+    <div class="white-box">
+      <p class="heading margin-bottom">Delete Records</p>
+      <p class="margin-bottom">To delete all records you created today, type <strong>"<span class="red">delete</span>"</strong> into the input below</p>
+      <p id="deleteText"></p>
+      <input type="text" id="deleteInput">
+      <i class="fa fa-check"></i>
+      <button id="deleteBtn" class="button" disabled>DELETE</button>
+    </div>
+  </section>
+
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/base.min.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
