@@ -8,6 +8,10 @@ First, download the extension from the Chrome store. Then any time you visit a "
 
 **IMPORTANT** You must be on a table-specific URL for the extension to work correctly. It will not work from the main dashboard.
 
+### Shortcuts (new!)
+
+Links from App Settings and Table settings pages are parsed and provided.
+
 ### Table Config
 
 While on a specific table URL, click the icon to open the extension and you'll see a javascript object representation of the field names => field IDs. You can click the 'copy' button to add the contents to your clipboard.
@@ -17,6 +21,8 @@ While on a specific table URL, click the icon to open the extension and you'll s
 QuickConfig also allows you to delete any records in the current table that were created 'today' by the current user (you). On the 'Delete' tab, enter the word 'delete' in the input box and click the button to delete those records.
 
 ### Screenshots
+
+![image](https://user-images.githubusercontent.com/20415982/116123830-1c45d100-a689-11eb-825e-7366c3e2ffe2.png)
 
 ![QuickConfig](images/table_screen_shot.png "QuickConfig - Table View")
 
