@@ -56,8 +56,12 @@ var App = {
   getCurrentURL: function() {
     var dfd = new $.Deferred();
 
-    chrome.tabs.getSelected(function(tab) {
-      dfd.resolve(tab.url);
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      if (tabs && tabs.length > 0) {
+        dfd.resolve(tabs[0].url);
+      } else {
+        dfd.reject('No active tab found');
+      }
     });
 
     return dfd.promise();
