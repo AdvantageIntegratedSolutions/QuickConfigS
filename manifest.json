@@ -15,7 +15,8 @@
     "declarativeContent",
     "activeTab",
     "clipboardWrite",
-    "tabs"
+    "tabs",
+    "scripting"
   ],
   "host_permissions": [
     "https://*.quickbase.com/",

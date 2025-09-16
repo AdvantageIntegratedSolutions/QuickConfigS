@@ -279,9 +279,9 @@ var Util = {
   },
 
   parseUrl: function(url) {
-    var matchData = url.match(/https:\/\/(.*)\.quickbase.com\/db\/(\w+)/);
+    var matchData = url.match(/https:\/\/(.*)\.quickbase.com\/.*(table|db)\/(\w+)/);
     var realm = matchData[1];
-    var dbid = matchData[2];
+    var dbid = matchData[3];
 
     return {
       realm: realm,
@@ -306,8 +306,13 @@ var Util = {
 App.init();
 
 
-chrome.tabs.executeScript(null, {
-  file: 'js/get_source.js'
-}, function(results) {
-  console.log('sresults', results);
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  if (tabs && tabs.length > 0) {
+    chrome.scripting.executeScript({
+      target: { tabId: tabs[0].id },
+      files: ['js/get_source.js']
+    }, function(results) {
+      console.log('sresults', results);
+    });
+  }
 });
