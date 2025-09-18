@@ -1,6 +1,11 @@
-# QuickConfig Chrome Extension
+# QuickConfigS Browser Extension
 
-QuickConfig is an extension for QuickBase developers to easily create configuration objects for QuickBase tables.
+QuickConfigS is a cross-browser extension for QuickBase developers to easily create configuration objects for QuickBase tables.
+
+## Browser Support
+
+- **Chrome**: Uses `manifest.json` (Manifest V3)
+- **Firefox**: Uses `manifest-firefox.json` (Manifest V2) - See `README-FIREFOX.md` for Firefox-specific instructions
 
 ## Usage
 

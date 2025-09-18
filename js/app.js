@@ -18,6 +18,10 @@ var App = {
     .then(function(fields) {
       self.render(fields);
     })
+    .catch(function(error) {
+      console.error('Extension initialization error:', error);
+      self.showError(error.message || 'An error occurred while loading the extension.');
+    })
 
   },
 
@@ -54,17 +58,14 @@ var App = {
   },
 
   getCurrentURL: function() {
-    var dfd = new $.Deferred();
-
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      if (tabs && tabs.length > 0) {
-        dfd.resolve(tabs[0].url);
-      } else {
-        dfd.reject('No active tab found');
-      }
-    });
-
-    return dfd.promise();
+    return browserAPI.tabs.query({active: true, currentWindow: true})
+      .then(function(tabs) {
+        if (tabs && tabs.length > 0) {
+          return tabs[0].url;
+        } else {
+          throw new Error('No active tab found');
+        }
+      });
   },
 
   render: function(fields) {
@@ -76,6 +77,13 @@ var App = {
     $('#tableShortcuts > h4').append(`"${tableName}" `)
     this.$tableName.text(tableName);
     this.$tableTextArea.text(tableText);
+  },
+
+  showError: function(message) {
+    // Show error message in the shortcuts section
+    this.setShortCutUI();
+    $('#appShortcuts').html('<div style="color: #ac231b; padding: 20px; text-align: center;"><strong>Error:</strong><br>' + message + '</div>');
+    $('#tableShortcuts').html('<div style="color: #666; padding: 20px; text-align: center;">Please navigate to a QuickBase table page to use this extension.</div>');
   },
 
   setShortCutUI: function(e) {
@@ -183,7 +191,7 @@ var Fields = {
 
   getDomListener: function(){
     return new Promise(function(resolve, reject){
-      chrome.runtime.onMessage.addListener(
+      browserAPI.runtime.onMessage.addListener(
         function(mainDbid, sender, sendResponse) {
           console.log('got main dbid', mainDbid)
           resolve(mainDbid)
@@ -206,7 +214,7 @@ var Fields = {
       var $links = $(res).find(".MainLink");
       $.each($links, (i,el) => {
         var newLink = baseUrl+ '/db/' + el.href.split('/db/')[1]
-        $(el).on('click', () => chrome.tabs.create({ url: newLink }))
+        $(el).on('click', () => browserAPI.tabs.create({ url: newLink }))
       })
       $links.removeAttr("href")
       $(parentElId).append($links)
@@ -280,6 +288,11 @@ var Util = {
 
   parseUrl: function(url) {
     var matchData = url.match(/https:\/\/(.*)\.quickbase.com\/.*(table|db)\/(\w+)/);
+    
+    if (!matchData) {
+      throw new Error('Not a valid QuickBase table/database URL. Please navigate to a QuickBase table or database page.');
+    }
+    
     var realm = matchData[1];
     var dbid = matchData[3];
 
@@ -306,13 +319,17 @@ var Util = {
 App.init();
 
 
-chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-  if (tabs && tabs.length > 0) {
-    chrome.scripting.executeScript({
-      target: { tabId: tabs[0].id },
-      files: ['js/get_source.js']
-    }, function(results) {
-      console.log('sresults', results);
-    });
-  }
-});
+browserAPI.tabs.query({active: true, currentWindow: true})
+  .then(function(tabs) {
+    if (tabs && tabs.length > 0) {
+      return browserAPI.tabs.executeScript(tabs[0].id, {
+        file: 'js/get_source.js'
+      });
+    }
+  })
+  .then(function(results) {
+    console.log('sresults', results);
+  })
+  .catch(function(error) {
+    console.error('Script execution failed:', error);
+  });

@@ -1,0 +1,20 @@
+{
+  "name": "quickconfigs",
+  "version": "1.0.2",
+  "description": "quickbase extension for firefox",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "buildff": "bash build-firefox.sh && rm -rf build-firefox && mkdir build-firefox && unzip firefox.zip -d build-firefox/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdvantageIntegratedSolutions/QuickConfigS.git"
+  },
+  "author": "Jake Iwen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdvantageIntegratedSolutions/QuickConfigS/issues"
+  },
+  "homepage": "https://github.com/AdvantageIntegratedSolutions/QuickConfigS#readme"
+}
